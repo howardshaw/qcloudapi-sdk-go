@@ -5,6 +5,9 @@ const (
 	LoadBalancerTypePrivateNetwork             = 3
 
 	LoadBalancerNameMaxLenth = 20
+
+	LoadBalancerForwardClassic     = 0
+	LoadBalancerForwardApplication = 1
 )
 
 type DescribeLoadBalancersArgs struct {
@@ -22,6 +25,7 @@ type DescribeLoadBalancersArgs struct {
 	ProjectId        *int      `qcloud_arg:"projectId"`
 	Forward          *int      `qcloud_arg:"forward"`
 	WithRs           *int      `qcloud_arg:"withRs"`
+	Special          *string   `qcloud_arg:"special"`
 }
 
 type DescribeLoadBalancersResponse struct {
@@ -43,6 +47,7 @@ type LoadBalancer struct {
 	StatusTime       string   `json:"statusTime"`
 	ProjectId        int      `json:"projectId"`
 	VpcId            int      `json:"vpcId"`
+	UniqVpcId        string   `json:"uniqVpcId"`
 	SubnetId         int      `json:"subnetId"`
 }
 
@@ -74,14 +79,22 @@ func (client *Client) InquiryLBPrice(args *InquiryLBPriceArgs) (*InquiryLBPriceR
 }
 
 type CreateLoadBalancerArgs struct {
-	LoadBalancerType int     `qcloud_arg:"loadBalancerType,required"`
-	Forward          *int    `qcloud_arg:"forward"`
-	LoadBalancerName *string `qcloud_arg:"loadBalancerName"`
-	DomainPrefix     *string `qcloud_arg:"domainPrefix"`
-	VpcId            *string `qcloud_arg:"vpcId"`
-	SubnetId         *string `qcloud_arg:"subnetId"`
-	ProjectId        *int    `qcloud_arg:"projectId"`
-	Number           *int    `qcloud_arg:"number"`
+	LoadBalancerType   int                 `qcloud_arg:"loadBalancerType,required"`
+	Forward            *int                `qcloud_arg:"forward"`
+	LoadBalancerName   *string             `qcloud_arg:"loadBalancerName"`
+	DomainPrefix       *string             `qcloud_arg:"domainPrefix"`
+	VpcId              *string             `qcloud_arg:"vpcId"`
+	SubnetId           *string             `qcloud_arg:"subnetId"`
+	ProjectId          *int                `qcloud_arg:"projectId"`
+	Number             *int                `qcloud_arg:"number"`
+	Special            *string             `qcloud_arg:"special"`
+	InternetAccessible *InternetAccessible `qcloud_arg:"internetAccessible"`
+	VIPs               *[]string           `qcloud_arg:"vips"`
+}
+
+type InternetAccessible struct {
+	InternetChargeType      string `qcloud_arg:"internetChargeType,required"`
+	InternetMaxBandwidthOut int    `qcloud_arg:"internetMaxBandwidthOut,required"`
 }
 
 type CreateLoadBalancerResponse struct {
@@ -183,6 +196,30 @@ func (client *Client) DescribeLoadBalancersTaskResult(taskId int) (*DescribeLoad
 	err := client.Invoke("DescribeLoadBalancersTaskResult", args, response)
 	if err != nil {
 		return &DescribeLoadBalancersTaskResultResponse{}, err
+	}
+	return response, nil
+}
+
+type ModifyLBTagInfoArgs struct {
+	LoadBalancerID string `qcloud_arg:"loadBalancerId,required"`
+	AddTags        *[]Tag `qcloud_arg:"addTags"`
+	ReplaceTags    *[]Tag `qcloud_arg:"replaceTags"`
+	DeleteTags     *[]Tag `qcloud_arg:"deleteTags"`
+}
+
+type Tag struct {
+	TagKey   *string `qcloud_arg:"tagKey" json:"tagKey"`
+	TagValue *string `qcloud_arg:"tagValue" json:"tagValue"`
+}
+type ModifyLBTagInfoResponse struct {
+	Response
+}
+
+func (client *Client) ModifyLBTagInfo(args *ModifyLBTagInfoArgs) (*ModifyLBTagInfoResponse, error) {
+	response := &ModifyLBTagInfoResponse{}
+	err := client.Invoke("ModifyLBTagInfo", args, response)
+	if err != nil {
+		return &ModifyLBTagInfoResponse{}, err
 	}
 	return response, nil
 }

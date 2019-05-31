@@ -33,8 +33,8 @@ func (client *Client) RegisterInstancesWithLoadBalancer(args *RegisterInstancesW
 
 type DescribeLoadBalancerBackendsArgs struct {
 	LoadBalancerId string `qcloud_arg:"loadBalancerId,required"`
-	Offset         int    `qcloud_arg:"offset"`
-	Limit          int    `qcloud_arg:"limit"`
+	Offset         *int   `qcloud_arg:"offset"`
+	Limit          *int   `qcloud_arg:"limit"`
 }
 
 type DescribeLoadBalancerBackendsResponse struct {
@@ -53,14 +53,12 @@ type LoadBalancerBackends struct {
 	InstanceStatus int      `json:"instanceStatus"`
 }
 
-func (client *Client) DescribeLoadBalancerBackends(LoadBalancerId string, Offset int, Limit int) (
+func (client *Client) DescribeLoadBalancerBackends(LoadBalancerId string) (
 	*DescribeLoadBalancerBackendsResponse,
 	error,
 ) {
 	args := &DescribeLoadBalancerBackendsArgs{
 		LoadBalancerId: LoadBalancerId,
-		Offset:         Offset,
-		Limit:          Limit,
 	}
 	response := &DescribeLoadBalancerBackendsResponse{}
 	err := client.Invoke("DescribeLoadBalancerBackends", args, response)
