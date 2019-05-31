@@ -3,7 +3,7 @@ package monitor
 import (
 	"testing"
 
-	"github.com/dbdd4us/qcloudapi-sdk-go/cvm"
+	"github.com/howardshaw/qcloudapi-sdk-go/cvm"
 )
 
 const (

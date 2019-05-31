@@ -3,7 +3,7 @@ package account
 import (
 	"os"
 
-	"github.com/dbdd4us/qcloudapi-sdk-go/common"
+	"github.com/howardshaw/qcloudapi-sdk-go/common"
 )
 
 const (

@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/dbdd4us/qcloudapi-sdk-go/util"
+	"github.com/howardshaw/qcloudapi-sdk-go/util"
 )
 
 type Request struct {
