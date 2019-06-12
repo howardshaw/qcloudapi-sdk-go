@@ -40,7 +40,7 @@ type GetResourcesByTagsResponse struct {
 	Response
 	Data struct {
 		Total int        `json:"total"`
-		Page  int        `json:"page"`
+		//Page  int        `json:"page"`
 		//Rp    int        `json:"rp"`
 		Rows  []Resource `json:"rows"`
 	} `json:"data"`
@@ -77,7 +77,7 @@ type GetResourceTagsByResourceIdsResponse struct {
 	Response
 	Data struct {
 		Total int           `json:"total"`
-		Page  int           `json:"page"`
+		//Page  int           `json:"page"`
 		//Rp    int           `json:"rp"`
 		Rows  []ResourceTag `json:"rows"`
 	} `json:"data"`
