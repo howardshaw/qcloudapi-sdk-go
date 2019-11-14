@@ -34,7 +34,7 @@ func (vae VersionAPIError) Error() string {
 
 type ClientError struct {
 	Message string
-	err     error
+	Err     error
 }
 
 func (ce ClientError) Error() string {
@@ -44,6 +44,6 @@ func (ce ClientError) Error() string {
 func makeClientError(err error) ClientError {
 	return ClientError{
 		Message: err.Error(),
-		err:     err,
+		Err:     err,
 	}
 }
